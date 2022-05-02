@@ -119,21 +119,20 @@ contract("DevToken", async accounts => {
 
     it ("allow account some allowance", async() => {
         devToken = await DevToken.deployed();
-
-        
         try{
             // Give account(0) access too 100 tokens on creator
-            await devToken.approve('0x0000000000000000000000000000000000000000', 100);    
+            await devToken.approve('0x0000000000000000000000000000000000000000', 100);
         }catch(error){
             assert.equal(error.reason, 'DevToken: approve cannot be to zero address', "Should be able to approve zero address");
         }
 
         try{
             // Give account 1 access too 100 tokens on zero account
-            await devToken.approve(accounts[1], 100);    
+            await devToken.approve(accounts[1], 100);
         }catch(error){
             assert.fail(error); // shold not fail
         }
+        console.log(await devToken.balanceOf(accounts[1]))
 
         // Verify by checking allowance
         let allowance = await devToken.allowance(accounts[0], accounts[1]);
